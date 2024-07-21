@@ -11,6 +11,7 @@ import {
   Instagram,
   Facebook,
   Twitter,
+  User,
 } from "lucide-react";
 
 const destinations = [
@@ -176,6 +177,45 @@ const App = () => {
               <button className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 px-8 rounded-full transition duration-300">
                 Contact Us
               </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Director's Message */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto bg-indigo-50 rounded-3xl overflow-hidden shadow-xl">
+            <div className="md:flex">
+              <div className="md:flex-shrink-0 bg-indigo-600 text-white p-8 flex flex-col items-center justify-center">
+                <User className="w-24 h-24 mb-4" />
+                <h3 className="text-2xl font-bold text-center">
+                  Madan Bhandari
+                </h3>
+                <p className="text-indigo-200">Director</p>
+              </div>
+              <div className="p-8">
+                <h2 className="text-3xl font-bold mb-6 text-indigo-600">
+                  Message from Director
+                </h2>
+                <p className="text-slate-600 leading-relaxed">
+                  Welcome to AirPlus Travels and Treks! As the Director, I am
+                  thrilled to invite you to explore the world with us. Our
+                  dedicated team is committed to providing exceptional travel
+                  experiences, ensuring your journeys are seamless, memorable
+                  and filled with adventure.
+                </p>
+                <p className="text-slate-600 leading-relaxed mt-4">
+                  Whether you're seeking a serene getaway, a cultural expedition
+                  or an adrenaline-pumping adventure, we have something for
+                  every traveler. We pride ourselves on our personalized service
+                  and attention to detail.
+                </p>
+                <p className="text-slate-600 leading-relaxed mt-4">
+                  Thank you for choosing AirPlus Travels & Treks. We look
+                  forward to creating unforgettable memories with you.
+                </p>
+              </div>
             </div>
           </div>
         </div>
