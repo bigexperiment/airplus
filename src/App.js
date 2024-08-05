@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 import {
   Plane,
@@ -8,11 +8,9 @@ import {
   Heart,
   Mail,
   Phone,
-  MapPin,
-  Instagram,
-  Facebook,
-  Twitter,
-  User,
+  ChevronDown,
+  Menu,
+  X,
 } from "lucide-react";
 
 const destinations = [
@@ -48,30 +46,110 @@ const testimonials = [
 ];
 
 const App = () => {
+  const [showTrekkingMenu, setShowTrekkingMenu] = useState(false);
+  const [showToursMenu, setShowToursMenu] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setShowMobileMenu(!showMobileMenu);
+  };
+
   return (
     <div className="font-['Poppins',sans-serif] bg-slate-50 text-slate-800">
       {/* Header */}
       <header className="bg-white shadow-md">
         <div className="container mx-auto px-4 py-6 flex justify-between items-center">
           <div className="flex items-center space-x-2">
-            <Plane className="w-10 h-10 text-indigo-600" />
-            <h1 className="text-3xl font-extrabold text-indigo-600">
-              AirPlusNepal
+            <img
+              src="/logo.png"
+              alt="AirPlusNepal Logo"
+              className="w-10 h-10"
+            />
+            <h1 className="text-3xl font-extrabold text-indigo-600 lowercase">
+              airplusnepal
             </h1>
           </div>
-          <nav className="hidden md:flex space-x-8">
-            <a
-              href="#"
-              className="text-slate-600 hover:text-indigo-600 transition duration-300"
-            >
-              Destinations
-            </a>
-            <a
-              href="#"
-              className="text-slate-600 hover:text-indigo-600 transition duration-300"
-            >
-              Activities
-            </a>
+          <div className="md:hidden">
+            <button onClick={toggleMobileMenu}>
+              {showMobileMenu ? (
+                <X className="w-6 h-6 text-slate-600" />
+              ) : (
+                <Menu className="w-6 h-6 text-slate-600" />
+              )}
+            </button>
+          </div>
+          <nav className="hidden md:flex space-x-8 relative">
+            <div className="relative">
+              <button
+                onClick={() => setShowTrekkingMenu(!showTrekkingMenu)}
+                className="text-slate-600 hover:text-indigo-600 transition duration-300 flex items-center"
+              >
+                Trekking <ChevronDown className="ml-1" />
+              </button>
+              {showTrekkingMenu && (
+                <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-10">
+                  <div className="px-4 py-2 border-b">
+                    <h3 className="font-semibold">Everest Region</h3>
+                    <ul className="space-y-1">
+                      <li>Everest Base Camp</li>
+                      <li>Three Passes</li>
+                      <li>Gokyo Lake</li>
+                    </ul>
+                  </div>
+                  <div className="px-4 py-2 border-b">
+                    <h3 className="font-semibold">Annapurna Region</h3>
+                    <ul className="space-y-1">
+                      <li>Annapurna Base Camp</li>
+                      <li>Poonhill (Ghorepani-Ghandruk) Trekking</li>
+                      <li>Mardi Himal Trek</li>
+                      <li>Annappurna Circuit</li>
+                      <li>Khopra Danda Trek</li>
+                      <li>Upper Mustang Trek</li>
+                    </ul>
+                  </div>
+                  <div className="px-4 py-2 border-b">
+                    <h3 className="font-semibold">Langtang Region</h3>
+                    <ul className="space-y-1">
+                      <li>Langtang Trek</li>
+                      <li>Langtang and Gosainkunda Lake Trek</li>
+                    </ul>
+                  </div>
+                  <div className="px-4 py-2 border-b">
+                    <h3 className="font-semibold">Manaslu Region</h3>
+                    <ul className="space-y-1">
+                      <li>Manaslu Circuit Trek</li>
+                    </ul>
+                  </div>
+                  <div className="px-4 py-2">
+                    <h3 className="font-semibold">Dhaulagiri Region</h3>
+                    <ul className="space-y-1">
+                      <li>Dhaulagiri Base Camp</li>
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="relative">
+              <button
+                onClick={() => setShowToursMenu(!showToursMenu)}
+                className="text-slate-600 hover:text-indigo-600 transition duration-300 flex items-center"
+              >
+                Tours <ChevronDown className="ml-1" />
+              </button>
+              {showToursMenu && (
+                <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-10">
+                  <div className="px-4 py-2">
+                    <h3 className="font-semibold">Tours</h3>
+                    <ul className="space-y-1">
+                      <li>Kathmandu & Nagarkot Tour</li>
+                      <li>Kathmandu & Lumbini Tour</li>
+                      <li>Kathmandu & Chitwan Tour</li>
+                      <li>Kathmandu & Pokhara Tour</li>
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </div>
             <a
               href="#"
               className="text-slate-600 hover:text-indigo-600 transition duration-300"
@@ -85,29 +163,105 @@ const App = () => {
               Contact
             </a>
           </nav>
-          <div className="flex items-center space-x-4">
+        </div>
+      </header>
+
+      {/* Mobile Menu */}
+      {showMobileMenu && (
+        <div className="md:hidden bg-white shadow-lg">
+          <div className="flex flex-col px-4 py-2">
+            <div className="relative">
+              <button
+                onClick={() => setShowTrekkingMenu(!showTrekkingMenu)}
+                className="text-slate-600 hover:text-indigo-600 transition duration-300 flex items-center justify-between w-full"
+              >
+                Trekking <ChevronDown className="ml-1" />
+              </button>
+              {showTrekkingMenu && (
+                <div className="mt-2 pl-4">
+                  <div className="border-b">
+                    <h3 className="font-semibold">Everest Region</h3>
+                    <ul className="space-y-1">
+                      <li>Everest Base Camp</li>
+                      <li>Three Passes</li>
+                      <li>Gokyo Lake</li>
+                    </ul>
+                  </div>
+                  <div className="border-b">
+                    <h3 className="font-semibold">Annapurna Region</h3>
+                    <ul className="space-y-1">
+                      <li>Annapurna Base Camp</li>
+                      <li>Poonhill (Ghorepani-Ghandruk) Trekking</li>
+                      <li>Mardi Himal Trek</li>
+                      <li>Annappurna Circuit</li>
+                      <li>Khopra Danda Trek</li>
+                      <li>Upper Mustang Trek</li>
+                    </ul>
+                  </div>
+                  <div className="border-b">
+                    <h3 className="font-semibold">Langtang Region</h3>
+                    <ul className="space-y-1">
+                      <li>Langtang Trek</li>
+                      <li>Langtang and Gosainkunda Lake Trek</li>
+                    </ul>
+                  </div>
+                  <div className="border-b">
+                    <h3 className="font-semibold">Manaslu Region</h3>
+                    <ul className="space-y-1">
+                      <li>Manaslu Circuit Trek</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">Dhaulagiri Region</h3>
+                    <ul className="space-y-1">
+                      <li>Dhaulagiri Base Camp</li>
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="relative">
+              <button
+                onClick={() => setShowToursMenu(!showToursMenu)}
+                className="text-slate-600 hover:text-indigo-600 transition duration-300 flex items-center justify-between w-full"
+              >
+                Tours <ChevronDown className="ml-1" />
+              </button>
+              {showToursMenu && (
+                <div className="mt-2 pl-4">
+                  <h3 className="font-semibold">Tours</h3>
+                  <ul className="space-y-1">
+                    <li>Kathmandu & Nagarkot Tour</li>
+                    <li>Kathmandu & Lumbini Tour</li>
+                    <li>Kathmandu & Chitwan Tour</li>
+                    <li>Kathmandu & Pokhara Tour</li>
+                  </ul>
+                </div>
+              )}
+            </div>
             <a
-              href="tel:+9771234567890"
-              className="text-slate-600 hover:text-indigo-600 transition duration-300"
+              href="#"
+              className="text-slate-600 hover:text-indigo-600 transition duration-300 py-2"
             >
-              <Phone className="inline w-5 h-5 mr-1" />
+              About
             </a>
             <a
-              href="mailto:info@airplusnepal.com"
-              className="text-slate-600 hover:text-indigo-600 transition duration-300"
+              href="#"
+              className="text-slate-600 hover:text-indigo-600 transition duration-300 py-2"
             >
-              <Mail className="inline w-5 h-5" />
+              Contact
             </a>
           </div>
         </div>
-      </header>
+      )}
+
       {/* Hero Section with Main Image */}
       <section className="relative h-screen">
         <img
           src="/main.jpeg" // Using the main image as the background
           alt="Nepal Landscape"
           className="w-full h-full object-cover"
-          style={{ filter: "brightness(0.5)" }} // Lowering contrast for readability
+          style={{ filter: "brightness(0.9)" }} // Lowering contrast for readability
         />
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="text-center text-white px-4">
@@ -125,6 +279,7 @@ const App = () => {
           </div>
         </div>
       </section>
+
       {/* Destinations */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
@@ -323,6 +478,20 @@ const App = () => {
                 <span className="text-gray-400">
                   +977 1 4525454 / +977 9862442639
                 </span>
+              </div>
+              <div className="flex items-center mb-2">
+                <img
+                  src="whatsapp.png"
+                  alt="WhatsApp"
+                  className="w-5 h-5 mr-2"
+                />
+                <span className="text-gray-400">
+                  WhatsApp/Viber: +977 9862442639
+                </span>
+              </div>
+              <div className="flex items-center">
+                <img src="line.png" alt="Line" className="w-5 h-5 mr-2" />
+                <span className="text-gray-400">Line: +977 9862442639</span>
               </div>
               <div className="flex items-center">
                 <Mail className="w-5 h-5 mr-2 text-indigo-500" />
