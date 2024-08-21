@@ -3,19 +3,17 @@ import { Link } from "react-router-dom";
 import { ChevronDown, Menu, X } from "lucide-react";
 
 const Header = () => {
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showTrekkingMenu, setShowTrekkingMenu] = useState(false);
   const [showToursMenu, setShowToursMenu] = useState(false);
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
-  const trekkingRef = useRef(null);
-  const toursRef = useRef(null);
+  const headerRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (trekkingRef.current && !trekkingRef.current.contains(event.target)) {
+      if (headerRef.current && !headerRef.current.contains(event.target)) {
+        setShowMobileMenu(false);
         setShowTrekkingMenu(false);
-      }
-      if (toursRef.current && !toursRef.current.contains(event.target)) {
         setShowToursMenu(false);
       }
     };
@@ -31,32 +29,56 @@ const Header = () => {
   };
 
   const renderMenuItems = (items) => (
-    <ul className="space-y-1">
+    <ul className="space-y-2">
       {items.map((item, index) => (
-        <li key={index}>{item}</li>
+        <li key={index} className="px-4 py-1 hover:bg-indigo-100">
+          <Link to="/" className="block text-slate-600 hover:text-indigo-600">
+            {item}
+          </Link>
+        </li>
       ))}
     </ul>
   );
 
-  const renderDropdownMenu = (title, items) => (
-    <div className="px-4 py-2 border-b">
-      <h3 className="font-semibold">{title}</h3>
-      {renderMenuItems(items)}
+  const renderDropdownMenu = (title, items, isOpen, setIsOpen) => (
+    <div className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full text-left px-4 py-2 flex justify-between items-center hover:bg-indigo-100"
+      >
+        <span>{title}</span>
+        <ChevronDown
+          className={`ml-1 transition-transform duration-200 ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+      {isOpen && (
+        <div className="bg-white shadow-inner">{renderMenuItems(items)}</div>
+      )}
     </div>
   );
 
   return (
-    <header className="bg-white shadow-md">
-      <div className="container mx-auto px-4 py-6 flex justify-between items-center">
-        <Link to="/" className="flex items-center space-x-2">
-          <img src="/logo.png" alt="AirPlusNepal Logo" className="w-10 h-10" />
-          <h1 className="text-3xl font-extrabold text-indigo-600 lowercase">
-            airplusnepal
-          </h1>
-        </Link>
+    <header ref={headerRef} className="bg-white shadow-md">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex justify-between items-center">
+          <Link to="/" className="flex items-center space-x-2">
+            <img
+              src="/logo.png"
+              alt="AirPlusNepal Logo"
+              className="w-10 h-10"
+            />
+            <h1 className="text-2xl md:text-3xl font-extrabold text-indigo-600 lowercase">
+              airplusnepal
+            </h1>
+          </Link>
 
-        <div className="md:hidden">
-          <button onClick={toggleMobileMenu} aria-label="Toggle mobile menu">
+          <button
+            onClick={toggleMobileMenu}
+            className="md:hidden"
+            aria-label="Toggle mobile menu"
+          >
             {showMobileMenu ? (
               <X className="w-6 h-6 text-slate-600" />
             ) : (
@@ -67,75 +89,54 @@ const Header = () => {
 
         <nav
           className={`${
-            showMobileMenu ? "block" : "hidden"
-          } md:flex md:space-x-8 relative`}
+            showMobileMenu ? "max-h-screen" : "max-h-0"
+          } md:max-h-screen overflow-hidden transition-all duration-300 ease-in-out md:mt-4`}
         >
-          <div ref={trekkingRef} className="relative">
-            <button
-              onClick={() => setShowTrekkingMenu(!showTrekkingMenu)}
-              className="text-slate-600 hover:text-indigo-600 transition duration-300 flex items-center"
-            >
-              Trekking <ChevronDown className="ml-1" />
-            </button>
-            {showTrekkingMenu && (
-              <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-10">
-                {renderDropdownMenu("Everest Region", [
+          <ul className="md:flex md:space-x-6 mt-4 md:mt-0">
+            <li className="mb-2 md:mb-0">
+              {renderDropdownMenu(
+                "Trekking",
+                [
                   "Everest Base Camp",
-                  "Three Passes",
-                  "Gokyo Lake",
-                ])}
-                {renderDropdownMenu("Annapurna Region", [
                   "Annapurna Base Camp",
-                  "Poonhill Trek",
-                  "Mardi Himal Trek",
-                  "Annapurna Circuit",
-                  "Khopra Danda Trek",
-                  "Upper Mustang Trek",
-                ])}
-                {renderDropdownMenu("Langtang Region", [
                   "Langtang Trek",
-                  "Langtang and Gosainkunda Lake Trek",
-                ])}
-                {renderDropdownMenu("Manaslu Region", ["Manaslu Circuit Trek"])}
-                {renderDropdownMenu("Dhaulagiri Region", [
+                  "Manaslu Circuit Trek",
                   "Dhaulagiri Base Camp",
-                ])}
-              </div>
-            )}
-          </div>
-
-          <div ref={toursRef} className="relative">
-            <button
-              onClick={() => setShowToursMenu(!showToursMenu)}
-              className="text-slate-600 hover:text-indigo-600 transition duration-300 flex items-center"
-            >
-              Tours <ChevronDown className="ml-1" />
-            </button>
-            {showToursMenu && (
-              <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-10">
-                {renderDropdownMenu("Tours", [
+                ],
+                showTrekkingMenu,
+                setShowTrekkingMenu
+              )}
+            </li>
+            <li className="mb-2 md:mb-0">
+              {renderDropdownMenu(
+                "Tours",
+                [
                   "Kathmandu & Nagarkot Tour",
                   "Kathmandu & Lumbini Tour",
                   "Kathmandu & Chitwan Tour",
                   "Kathmandu & Pokhara Tour",
-                ])}
-              </div>
-            )}
-          </div>
-
-          <Link
-            to="/about"
-            className="text-slate-600 hover:text-indigo-600 transition duration-300"
-          >
-            About
-          </Link>
-
-          <Link
-            to="/contact"
-            className="text-slate-600 hover:text-indigo-600 transition duration-300"
-          >
-            Contact
-          </Link>
+                ],
+                showToursMenu,
+                setShowToursMenu
+              )}
+            </li>
+            <li className="mb-2 md:mb-0">
+              <Link
+                to="/about"
+                className="block px-4 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-100 transition duration-300"
+              >
+                About
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/contact"
+                className="block px-4 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-100 transition duration-300"
+              >
+                Contact
+              </Link>
+            </li>
+          </ul>
         </nav>
       </div>
     </header>
