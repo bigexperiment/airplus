@@ -5,6 +5,7 @@ import Contact from "./Contact";
 import Footer from "./Footer";
 import Header from "./Header";
 import NotFound from "./NotFound";
+import Everest from "./pages/Everest";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/everest" element={<Everest />} />
           <Route path="*" element={<NotFound />} />{" "}
           {/* Catch-all route for 404 errors */}
         </Routes>
