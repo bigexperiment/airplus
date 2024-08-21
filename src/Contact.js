@@ -40,7 +40,7 @@ export default function Contact() {
       >
         <input type="hidden" name="from_name" value="Airplus Inquiry"></input>
         <h2 className="text-xl font-semibold mb-4">
-          Contact Trek Around Nepal
+          Contact AirPlus Nepal / Make an Inquiry.
         </h2>
 
         <div className="mb-4">
