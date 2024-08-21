@@ -7,8 +7,10 @@ export default function Contact() {
     event.preventDefault();
     setResult("Sending....");
     const formData = new FormData(event.target);
+    //ganesh = 0af7d0bb-d11a-445a-8aef-caaa0c26b10e
+    //madan = 40c9765d-e864-410a-b687-2d952633ca21
 
-    formData.append("access_key", "0af7d0bb-d11a-445a-8aef-caaa0c26b10e");
+    formData.append("access_key", "40c9765d-e864-410a-b687-2d952633ca21");
 
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
@@ -19,7 +21,9 @@ export default function Contact() {
       const data = await response.json();
 
       if (data.success) {
-        setResult("Form Submitted Successfully");
+        setResult(
+          "Form Submitted Successfully. We will reply you as soon as possible. "
+        );
         event.target.reset();
       } else {
         console.log("Error", data);
@@ -69,48 +73,44 @@ export default function Contact() {
 
         <div className="mb-4">
           <label className="block text-gray-700 mb-2" htmlFor="subject">
-            Subject*
+            Subject
           </label>
           <input
             type="text"
             name="subject"
-            required
             className="border border-gray-300 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
         <div className="mb-4">
           <label className="block text-gray-700 mb-2" htmlFor="arrivalDate">
-            Date you will arrive*
+            Date you will arrive
           </label>
           <input
             type="date"
             name="arrivalDate"
-            required
             className="border border-gray-300 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
         <div className="mb-4">
           <label className="block text-gray-700 mb-2" htmlFor="daysTrekking">
-            How many days trekking?*
+            How many days trekking?
           </label>
           <input
             type="number"
             name="daysTrekking"
-            required
             className="border border-gray-300 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
         <div className="mb-4">
           <label className="block text-gray-700 mb-2" htmlFor="numberOfPeople">
-            How many people?*
+            How many people?
           </label>
           <input
             type="number"
             name="numberOfPeople"
-            required
             className="border border-gray-300 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
