@@ -55,10 +55,10 @@ const Home = () => {
       {/* Hero Section with Main Image */}
       <section className="relative h-screen">
         <img
-          src="/main.jpeg" // Using the main image as the background
+          src="/main.jpeg"
           alt="Nepal Landscape"
           className="w-full h-full object-cover"
-          style={{ filter: "brightness(0.9)" }} // Lowering contrast for readability
+          style={{ filter: "brightness(0.9)" }}
         />
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="text-center text-white px-4">
@@ -227,7 +227,7 @@ const Home = () => {
             {[...Array(8)].map((_, index) => (
               <img
                 key={index}
-                src={`/api/placeholder/${400 + index}/${300 + index}`}
+                src={`/${index + 1}.JPG`}
                 alt={`Gallery image ${index + 1}`}
                 className="w-full h-64 object-cover rounded-xl shadow-md hover:shadow-xl transition duration-300"
               />

@@ -15,15 +15,16 @@ const Everest = () => {
   }, []);
 
   return (
-    <div className="font-['Poppins',sans-serif] bg-white text-slate-800 min-h-screen w-full flex flex-col">
+    <div className="font-['Poppins',sans-serif] bg-white text-slate-800 min-h-screen w-full flex flex-col overflow-x-hidden">
       <h1 className="text-3xl font-bold p-6 bg-slate-100">Everest Document</h1>
       <div className="flex-grow w-full">
         <iframe
-          src="https://docs.google.com/document/d/1nX0QzYU2wwWjpuQGjduQpcx4zl3tHFKrr_gysb9x0XI/pub?embedded=true"
-          className="w-full h-full"
+          src="https://docs.google.com/document/d/1xNIH3S1zVrc6oUfdl4gL6y1pAEoeJime4iEHxMM2Aw4/pub?embedded=true"
+          className={`w-full h-full ${isMobile ? "max-w-[95vw] mx-auto" : ""}`}
           style={{
             border: "none",
             height: isMobile ? "calc(100vh - 80px)" : "calc(100vh - 100px)",
+            width: isMobile ? "95vw" : "100%",
           }}
           title="Everest Document"
         />
