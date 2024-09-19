@@ -6,6 +6,7 @@ const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showTrekkingMenu, setShowTrekkingMenu] = useState(false);
   const [showToursMenu, setShowToursMenu] = useState(false);
+  const [activeRegion, setActiveRegion] = useState(null);
 
   const headerRef = useRef(null);
 
@@ -28,19 +29,36 @@ const Header = () => {
     setShowMobileMenu(!showMobileMenu);
   };
 
-  const renderMenuItems = (items) => (
+  const renderMenuItems = (items, category, region = '') => (
     <ul className="space-y-2">
-      {items.map((item, index) => (
-        <li key={index} className="px-4 py-1 hover:bg-indigo-100">
-          <Link to="/" className="block text-slate-600 hover:text-indigo-600">
-            {item}
-          </Link>
-        </li>
-      ))}
+      {items.map((item, index) => {
+        let linkPath = `/${category}/${region ? `${region.toLowerCase().replace(/\s+/g, '-')}/` : ''}${item.toLowerCase().replace(/\s+/g, '-')}`;
+        
+        // Special case for Poon Hill
+        if (item === "POONHILL (GHOREPANI-GHANDRUK) TREKKING") {
+          linkPath = `/poonhill`;
+        }
+        
+        // Add '-trek' to the end of the path for treks
+        if (category === 'treks' && !linkPath.endsWith('-trek')) {
+          linkPath += '-trek';
+        }
+        
+        return (
+          <li key={index} className="px-4 py-1 hover:bg-indigo-100">
+            <Link 
+              to={linkPath}
+              className="block text-slate-600 hover:text-indigo-600"
+            >
+              {item}
+            </Link>
+          </li>
+        );
+      })}
     </ul>
   );
 
-  const renderDropdownMenu = (title, items, isOpen, setIsOpen) => (
+  const renderNestedDropdownMenu = (title, items, isOpen, setIsOpen, category) => (
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -54,7 +72,24 @@ const Header = () => {
         />
       </button>
       {isOpen && (
-        <div className="bg-white shadow-inner">{renderMenuItems(items)}</div>
+        <div className="bg-white shadow-inner">
+          {Object.entries(items).map(([region, activities]) => (
+            <div key={region} className="px-4 py-2">
+              <button
+                onClick={() => setActiveRegion(activeRegion === region ? null : region)}
+                className="w-full text-left font-semibold text-indigo-600 hover:bg-indigo-100 px-2 py-1 rounded"
+              >
+                {region}
+                <ChevronDown
+                  className={`ml-1 inline-block transition-transform duration-200 ${
+                    activeRegion === region ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              {activeRegion === region && renderMenuItems(activities, category, region)}
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
@@ -94,30 +129,52 @@ const Header = () => {
         >
           <ul className="md:flex md:space-x-6 mt-4 md:mt-0">
             <li className="mb-2 md:mb-0">
-              {renderDropdownMenu(
+              {renderNestedDropdownMenu(
                 "Trekking",
-                [
-                  "Everest Base Camp",
-                  "Annapurna Base Camp",
-                  "Langtang Trek",
-                  "Manaslu Circuit Trek",
-                  "Dhaulagiri Base Camp",
-                ],
+                {
+                  "Everest Region": [
+                    "EVEREST BASE CAMP",
+                    "THREE PASSES",
+                    "GOKYO LAKE"
+                  ],
+                  "Annapurna Region": [
+                    "ANNAPURNA BASE CAMP",
+                    "POONHILL (GHOREPANI-GHANDRUK) TREKKING",
+                    "MARDI HIMAL TREK",
+                    "ANNAPURNA CIRCUIT",  // Make sure it's written exactly like this
+                    "KHOPRA DANDA TREK",
+                    "UPPER MUSTANG TREK"
+                  ],
+                  "Langtang Region": [
+                    "LANGTANG TREK",
+                    "LANGTANG AND GOSAINKUNDA LAKE TREK"
+                  ],
+                  "Manaslu Region": [
+                    "MANASLU CIRCUIT TREK"  // Make sure it's written exactly like this
+                  ],
+                  "Dhaulagiri Region": [
+                    "DHAULAGIRI BASE CAMP"
+                  ]
+                },
                 showTrekkingMenu,
-                setShowTrekkingMenu
+                setShowTrekkingMenu,
+                "treks"
               )}
             </li>
             <li className="mb-2 md:mb-0">
-              {renderDropdownMenu(
+              {renderNestedDropdownMenu(
                 "Tours",
-                [
-                  "Kathmandu & Nagarkot Tour",
-                  "Kathmandu & Lumbini Tour",
-                  "Kathmandu & Chitwan Tour",
-                  "Kathmandu & Pokhara Tour",
-                ],
+                {
+                  "Popular Tours": [
+                    "Kathmandu & Nagarkot Tour",
+                    "Kathmandu & Lumbini Tour",
+                    "Kathmandu & Chitwan Tour",
+                    "Kathmandu & Pokhara Tour",
+                  ]
+                },
                 showToursMenu,
-                setShowToursMenu
+                setShowToursMenu,
+                "tours"
               )}
             </li>
             <li className="mb-2 md:mb-0">

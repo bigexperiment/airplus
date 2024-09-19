@@ -183,9 +183,14 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-8 border-t border-gray-600 text-center pt-4">
-          <p className="text-gray-400">
+          <p className="text-gray-400 mb-2">
             &copy; 2024 AirPlusNepal. All rights reserved.
           </p>
+          <div className="text-sm text-gray-500">
+            <p>Company registered: 194768/075/076</p>
+            <p>Tourism license number: 2605</p>
+            <p>VAT no: 606643944</p>
+          </div>
         </div>
       </div>
     </footer>

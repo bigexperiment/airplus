@@ -86,7 +86,7 @@ const App = () => {
                   <div className="px-4 py-2 border-b">
                     <h3 className="font-semibold">Annapurna Region</h3>
                     <ul className="space-y-1">
-                      <li>Annapurna Base Camp</li>
+                      <li>Annapurna Base Camp.</li>
                       <li>Poonhill (Ghorepani-Ghandruk) Trekking</li>
                       <li>Mardi Himal Trek</li>
                       <li>Annappurna Circuit</li>
