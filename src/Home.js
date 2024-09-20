@@ -167,7 +167,7 @@ const Home = () => {
       </section>
 
       {/* About */}
-      <section className="py-24 bg-indigo-50">
+      <section id="about" className="py-24 bg-indigo-50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl font-bold mb-8">About AirPlusNepal</h2>

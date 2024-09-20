@@ -1,5 +1,6 @@
 import React from "react";
 import ReactCountryFlag from "react-country-flag";
+import { Link } from "react-router-dom";
 import { Phone, Mail } from "lucide-react";
 
 const Footer = () => {
@@ -140,44 +141,36 @@ const Footer = () => {
             <h4 className="text-2xl font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <a
-                  href="/destinations"
+                <Link
+                  to="/all-activities"
                   className="text-indigo-300 hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
                   Destinations
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/activities"
+                <Link
+                  to="/all-activities"
                   className="text-indigo-300 hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
                   Activities
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/about"
+                <Link
+                  to="/#about"
                   className="text-indigo-300 hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/contact"
+                <Link
+                  to="/contact"
                   className="text-indigo-300 hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
                   Contact
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
