@@ -1,18 +1,11 @@
-import React, { useState } from "react";
-import ReactCountryFlag from "react-country-flag";
-import Contact from "./Contact";
-
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import {
-  Plane,
-  Map,
-  Camera,
-  Mountain,
-  Heart,
-  Mail,
-  Phone,
-  ChevronDown,
-} from "lucide-react";
+import React from "react";
+import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { Calendar, ChevronDown, Menu, X, Heart, Mountain, Camera, Map } from "lucide-react";
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 const destinations = [
   { name: "Kathmandu", image: "/api/placeholder/800/500" },
@@ -47,8 +40,20 @@ const testimonials = [
 ];
 
 const Home = () => {
-  const [showTrekkingMenu, setShowTrekkingMenu] = useState(false);
-  const [showToursMenu, setShowToursMenu] = useState(false);
+  const trekkingPackages = [
+    { name: "Everest Base Camp", duration: "11 Days", image: "/images/everest-base-camp.jpg", link: "/treks/everest-region/everest-base-camp" },
+    { name: "Annapurna Base Camp", duration: "11 Days", image: "/images/annapurna-base-camp.jpg", link: "/treks/annapurna-region/annapurna-base-camp" },
+    { name: "Annapurna Circuit", duration: "15 Days", image: "/images/annapurna-circuit.jpg", link: "/treks/annapurna-region/annapurna-circuit" },
+    { name: "Manaslu Circuit", duration: "15 Days", image: "/images/manaslu-circuit.jpg", link: "/treks/manaslu-region/manaslu-circuit" },
+    { name: "Poon Hill", duration: "8 Days", image: "/images/poon-hill.jpg", link: "/treks/annapurna-region/poon-hill" },
+  ];
+
+  const tourPackages = [
+    { name: "Kathmandu & Nagarkot", duration: "4 Days", image: "/images/kathmandu-nagarkot.jpg", link: "/tours/kathmandu-nagarkot" },
+    { name: "Kathmandu & Pokhara", duration: "5 Days", image: "/images/kathmandu-pokhara.jpg", link: "/tours/kathmandu-pokhara" },
+    { name: "Kathmandu & Chitwan", duration: "6 Days", image: "/images/kathmandu-chitwan.jpg", link: "/tours/kathmandu-chitwan" },
+    { name: "Kathmandu & Lumbini", duration: "5 Days", image: "/images/kathmandu-lumbini.jpg", link: "/tours/kathmandu-lumbini" },
+  ];
 
   return (
     <div className="font-['Poppins',sans-serif] bg-slate-50 text-slate-800">
@@ -76,37 +81,91 @@ const Home = () => {
           </div>
         </div>
       </section>
-      {/* Destinations */}
+
+      {/* Trekking Packages Section */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-16">
-            Popular Destinations
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {destinations.map((dest, index) => (
-              <div
-                key={index}
-                className="relative overflow-hidden rounded-2xl shadow-lg group"
-              >
-                <img
-                  src={dest.image}
-                  alt={dest.name}
-                  className="w-full h-80 object-cover transition duration-300 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="text-white text-2xl font-bold mb-2">
-                    {dest.name}
-                  </h3>
-                  <button className="text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-full text-sm transition duration-300">
-                    Explore
-                  </button>
-                </div>
-              </div>
+          <h2 className="text-4xl font-bold text-center mb-16">Our Trekking Packages</h2>
+          <Swiper
+            modules={[Navigation, Pagination, Autoplay]}
+            spaceBetween={30}
+            slidesPerView={1}
+            navigation
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 5000 }}
+            breakpoints={{
+              640: { slidesPerView: 2 },
+              768: { slidesPerView: 3 },
+              1024: { slidesPerView: 4 },
+            }}
+          >
+            {trekkingPackages.map((trek, index) => (
+              <SwiperSlide key={index}>
+                <Link to={trek.link} className="block">
+                  <div className="relative overflow-hidden rounded-lg shadow-lg group">
+                    <img src={trek.image} alt={trek.name} className="w-full h-64 object-cover transition duration-300 group-hover:scale-110" />
+                    <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-4">
+                      <h3 className="text-white text-xl font-bold mb-2">{trek.name}</h3>
+                      <p className="text-white flex items-center">
+                        <Calendar className="w-4 h-4 mr-2" />
+                        {trek.duration}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              </SwiperSlide>
             ))}
+          </Swiper>
+          <div className="text-center mt-8">
+            <Link to="/all-activities" className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-full transition duration-300">
+              See More Treks
+            </Link>
           </div>
         </div>
       </section>
+
+      {/* Tour Packages Section */}
+      <section className="py-24 bg-gray-100">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl font-bold text-center mb-16">Our Tour Packages</h2>
+          <Swiper
+            modules={[Navigation, Pagination, Autoplay]}
+            spaceBetween={30}
+            slidesPerView={1}
+            navigation
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 5000 }}
+            breakpoints={{
+              640: { slidesPerView: 2 },
+              768: { slidesPerView: 3 },
+              1024: { slidesPerView: 4 },
+            }}
+          >
+            {tourPackages.map((tour, index) => (
+              <SwiperSlide key={index}>
+                <Link to={tour.link} className="block">
+                  <div className="relative overflow-hidden rounded-lg shadow-lg group">
+                    <img src={tour.image} alt={tour.name} className="w-full h-64 object-cover transition duration-300 group-hover:scale-110" />
+                    <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-4">
+                      <h3 className="text-white text-xl font-bold mb-2">{tour.name}</h3>
+                      <p className="text-white flex items-center">
+                        <Calendar className="w-4 h-4 mr-2" />
+                        {tour.duration}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <div className="text-center mt-8">
+            <Link to="/all-activities" className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-full transition duration-300">
+              See More Tours
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* About */}
       <section className="py-24 bg-indigo-50">
         <div className="container mx-auto px-4">
@@ -223,16 +282,29 @@ const Home = () => {
           <h2 className="text-4xl font-bold text-center mb-16">
             Capture the Moments
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <Swiper
+            modules={[Navigation, Pagination, Autoplay]}
+            spaceBetween={30}
+            slidesPerView={1}
+            navigation
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 5000 }}
+            breakpoints={{
+              640: { slidesPerView: 2 },
+              768: { slidesPerView: 3 },
+              1024: { slidesPerView: 4 },
+            }}
+          >
             {[...Array(8)].map((_, index) => (
-              <img
-                key={index}
-                src={`/${index + 1}.JPG`}
-                alt={`Gallery image ${index + 1}`}
-                className="w-full h-64 object-cover rounded-xl shadow-md hover:shadow-xl transition duration-300"
-              />
+              <SwiperSlide key={index}>
+                <img
+                  src={`/${index + 1}.JPG`}
+                  alt={`Gallery image ${index + 1}`}
+                  className="w-full h-64 object-cover rounded-xl shadow-md hover:shadow-xl transition duration-300"
+                />
+              </SwiperSlide>
             ))}
-          </div>
+          </Swiper>
         </div>
       </section>
       {/* Reviews */}

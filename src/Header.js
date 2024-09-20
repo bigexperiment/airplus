@@ -1,199 +1,113 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { ChevronDown, Menu, X } from "lucide-react";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ChevronDown } from 'lucide-react';
 
 const Header = () => {
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showTrekkingMenu, setShowTrekkingMenu] = useState(false);
   const [showToursMenu, setShowToursMenu] = useState(false);
-  const [activeRegion, setActiveRegion] = useState(null);
 
-  const headerRef = useRef(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (headerRef.current && !headerRef.current.contains(event.target)) {
-        setShowMobileMenu(false);
-        setShowTrekkingMenu(false);
-        setShowToursMenu(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const toggleMobileMenu = () => {
-    setShowMobileMenu(!showMobileMenu);
+  const closeMenus = () => {
+    setShowTrekkingMenu(false);
+    setShowToursMenu(false);
   };
 
-  const renderMenuItems = (items, category, region = '') => (
+  const renderMenuItems = (items, category) => (
     <ul className="space-y-2">
-      {items.map((item, index) => {
-        let linkPath = `/${category}/${region ? `${region.toLowerCase().replace(/\s+/g, '-')}/` : ''}${item.toLowerCase().replace(/\s+/g, '-')}`;
-        
-        // Special case for Poon Hill
-        if (item === "POONHILL (GHOREPANI-GHANDRUK) TREKKING") {
-          linkPath = `/poonhill`;
-        }
-        
-        // Add '-trek' to the end of the path for treks
-        if (category === 'treks' && !linkPath.endsWith('-trek')) {
-          linkPath += '-trek';
-        }
-        
-        return (
-          <li key={index} className="px-4 py-1 hover:bg-indigo-100">
-            <Link 
-              to={linkPath}
-              className="block text-slate-600 hover:text-indigo-600"
-            >
-              {item}
-            </Link>
-          </li>
-        );
-      })}
+      {items.map((item, index) => (
+        <li key={index} className="px-4 py-1 hover:bg-indigo-100">
+          <Link 
+            to={`/${category}/${item.link}`}
+            className="block text-slate-600 hover:text-indigo-600"
+            onClick={closeMenus}
+          >
+            {item.name}
+          </Link>
+        </li>
+      ))}
     </ul>
   );
 
-  const renderNestedDropdownMenu = (title, items, isOpen, setIsOpen, category) => (
-    <div className="relative">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full text-left px-4 py-2 flex justify-between items-center hover:bg-indigo-100"
-      >
-        <span>{title}</span>
-        <ChevronDown
-          className={`ml-1 transition-transform duration-200 ${
-            isOpen ? "rotate-180" : ""
-          }`}
-        />
-      </button>
-      {isOpen && (
-        <div className="bg-white shadow-inner">
-          {Object.entries(items).map(([region, activities]) => (
-            <div key={region} className="px-4 py-2">
-              <button
-                onClick={() => setActiveRegion(activeRegion === region ? null : region)}
-                className="w-full text-left font-semibold text-indigo-600 hover:bg-indigo-100 px-2 py-1 rounded"
-              >
-                {region}
-                <ChevronDown
-                  className={`ml-1 inline-block transition-transform duration-200 ${
-                    activeRegion === region ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-              {activeRegion === region && renderMenuItems(activities, category, region)}
-            </div>
-          ))}
-        </div>
-      )}
+  const renderNestedDropdownMenu = () => (
+    <div className="absolute left-0 mt-2 w-64 bg-white shadow-lg rounded-lg z-10">
+      <div className="px-4 py-2 border-b">
+        <h3 className="font-semibold">Everest Region</h3>
+        {renderMenuItems([
+          { name: "Everest Base Camp", link: "everest-region/everest-base-camp" },
+          { name: "Three Passes", link: "everest-region/three-passes" },
+          { name: "Gokyo Lake", link: "everest-region/goyko-lake" },
+        ], "treks")}
+      </div>
+      <div className="px-4 py-2 border-b">
+        <h3 className="font-semibold">Annapurna Region</h3>
+        {renderMenuItems([
+          { name: "Annapurna Base Camp", link: "annapurna-region/annapurna-base-camp" },
+          { name: "Poon Hill", link: "annapurna-region/poon-hill" },
+          { name: "Mardi Himal Trek", link: "annapurna-region/mardi-himal" },
+          { name: "Annapurna Circuit", link: "annapurna-region/annapurna-circuit" },
+          { name: "Khopra Danda Trek", link: "annapurna-region/khopra-danda" },
+          { name: "Upper Mustang Trek", link: "annapurna-region/upper-mustang" },
+        ], "treks")}
+      </div>
+      <div className="px-4 py-2 border-b">
+        <h3 className="font-semibold">Langtang Region</h3>
+        {renderMenuItems([
+          { name: "Langtang Trek", link: "langtang-region/langtang-trek" },
+          { name: "Langtang and Gosainkunda Lake Trek", link: "langtang-region/langtang-gosainkunda" },
+        ], "treks")}
+      </div>
+      <div className="px-4 py-2 border-b">
+        <h3 className="font-semibold">Manaslu Region</h3>
+        {renderMenuItems([
+          { name: "Manaslu Circuit Trek", link: "manaslu-region/manaslu-circuit" },
+        ], "treks")}
+      </div>
+      <div className="px-4 py-2">
+        <h3 className="font-semibold">Dhaulagiri Region</h3>
+        {renderMenuItems([
+          { name: "Dhaulagiri Base Camp", link: "dhaulagiri-region/dhaulagiri-base-camp" },
+        ], "treks")}
+      </div>
     </div>
   );
 
   return (
-    <header ref={headerRef} className="bg-white shadow-md">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex justify-between items-center">
-          <Link to="/" className="flex items-center space-x-2">
-            <img
-              src="/logo.png"
-              alt="AirPlusNepal Logo"
-              className="w-10 h-10"
-            />
-            <h1 className="text-2xl md:text-3xl font-extrabold text-indigo-600 lowercase">
-              airplusnepal
-            </h1>
-          </Link>
-
-          <button
-            onClick={toggleMobileMenu}
-            className="md:hidden"
-            aria-label="Toggle mobile menu"
-          >
-            {showMobileMenu ? (
-              <X className="w-6 h-6 text-slate-600" />
-            ) : (
-              <Menu className="w-6 h-6 text-slate-600" />
+    <header className="bg-white shadow-md">
+      <div className="container mx-auto px-4 py-6 flex justify-between items-center">
+        <Link to="/" className="flex items-center space-x-2">
+          <img src="/logo.png" alt="AirPlusNepal Logo" className="w-10 h-10" />
+          <h1 className="text-3xl font-extrabold text-indigo-600 lowercase">airplusnepal</h1>
+        </Link>
+        <nav className="hidden md:flex space-x-8 relative">
+          <div className="relative">
+            <button
+              onClick={() => setShowTrekkingMenu(!showTrekkingMenu)}
+              className="text-slate-600 hover:text-indigo-600 transition duration-300 flex items-center"
+            >
+              Trekking <ChevronDown className="ml-1" />
+            </button>
+            {showTrekkingMenu && renderNestedDropdownMenu()}
+          </div>
+          <div className="relative">
+            <button
+              onClick={() => setShowToursMenu(!showToursMenu)}
+              className="text-slate-600 hover:text-indigo-600 transition duration-300 flex items-center"
+            >
+              Tours <ChevronDown className="ml-1" />
+            </button>
+            {showToursMenu && (
+              <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-10">
+                {renderMenuItems([
+                  { name: "Kathmandu & Nagarkot", link: "kathmandu-nagarkot" },
+                  { name: "Kathmandu & Lumbini", link: "kathmandu-lumbini" },
+                  { name: "Kathmandu & Chitwan", link: "kathmandu-chitwan" },
+                  { name: "Kathmandu & Pokhara", link: "kathmandu-pokhara" },
+                ], "tours")}
+              </div>
             )}
-          </button>
-        </div>
-
-        <nav
-          className={`${
-            showMobileMenu ? "max-h-screen" : "max-h-0"
-          } md:max-h-screen overflow-hidden transition-all duration-300 ease-in-out md:mt-4`}
-        >
-          <ul className="md:flex md:space-x-6 mt-4 md:mt-0">
-            <li className="mb-2 md:mb-0">
-              {renderNestedDropdownMenu(
-                "Trekking",
-                {
-                  "Everest Region": [
-                    "EVEREST BASE CAMP",
-                    "THREE PASSES",
-                    "GOKYO LAKE"
-                  ],
-                  "Annapurna Region": [
-                    "ANNAPURNA BASE CAMP",
-                    "POONHILL (GHOREPANI-GHANDRUK) TREKKING",
-                    "MARDI HIMAL TREK",
-                    "ANNAPURNA CIRCUIT",  // Make sure it's written exactly like this
-                    "KHOPRA DANDA TREK",
-                    "UPPER MUSTANG TREK"
-                  ],
-                  "Langtang Region": [
-                    "LANGTANG TREK",
-                    "LANGTANG AND GOSAINKUNDA LAKE TREK"
-                  ],
-                  "Manaslu Region": [
-                    "MANASLU CIRCUIT TREK"  // Make sure it's written exactly like this
-                  ],
-                  "Dhaulagiri Region": [
-                    "DHAULAGIRI BASE CAMP"
-                  ]
-                },
-                showTrekkingMenu,
-                setShowTrekkingMenu,
-                "treks"
-              )}
-            </li>
-            <li className="mb-2 md:mb-0">
-              {renderNestedDropdownMenu(
-                "Tours",
-                {
-                  "Popular Tours": [
-                    "Kathmandu & Nagarkot Tour",
-                    "Kathmandu & Lumbini Tour",
-                    "Kathmandu & Chitwan Tour",
-                    "Kathmandu & Pokhara Tour",
-                  ]
-                },
-                showToursMenu,
-                setShowToursMenu,
-                "tours"
-              )}
-            </li>
-            <li className="mb-2 md:mb-0">
-              <Link
-                to="/about"
-                className="block px-4 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-100 transition duration-300"
-              >
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/contact"
-                className="block px-4 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-100 transition duration-300"
-              >
-                Contact
-              </Link>
-            </li>
-          </ul>
+          </div>
+          <Link to="/contact" className="text-slate-600 hover:text-indigo-600 transition duration-300">
+            Contact
+          </Link>
         </nav>
       </div>
     </header>
