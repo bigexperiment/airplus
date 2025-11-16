@@ -31,7 +31,7 @@ import KathmanduPokhara from "./tours/KathmanduPokhara";
 const App = () => {
   return (
     <Router>
-      <div className="font-['Inter',sans-serif] bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+      <div className="font-sans bg-white text-slate-800 min-h-screen flex flex-col">
         <Header />
         <main className="flex-grow">
           <Routes>
